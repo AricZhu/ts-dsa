@@ -1,0 +1,19 @@
+{
+  "name": "ts-dsa",
+  "version": "1.0.0",
+  "description": "使用 TypeScript 实现 《数据结构与算法分析 C语言描述》书中的算法",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AricZhu/ts-dsa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AricZhu/ts-dsa/issues"
+  },
+  "homepage": "https://github.com/AricZhu/ts-dsa#readme"
+}
