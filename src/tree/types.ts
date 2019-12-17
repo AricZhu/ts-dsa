@@ -2,7 +2,7 @@ export class TreeNode {
     element: any
     left: TreeNode | null
     right: TreeNode | null
-    constructor (val = undefined, left = null, right = null) {
+    constructor (val: any = undefined, left: TreeNode | null = null, right: TreeNode | null = null) {
         this.element = val
         this.left = left
         this.right = right
@@ -17,4 +17,5 @@ export interface BinarySearchTreeInterface {
     findMax (): TreeNode | null
     insert (val: any): TreeNode
     delete (val: any): TreeNode | null
+    print (): void
 }

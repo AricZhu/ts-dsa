@@ -2,7 +2,7 @@ import { TreeNode, BinarySearchTreeInterface } from './types'
 
 export class BinarySearchTree implements BinarySearchTreeInterface {
     root: TreeNode | null
-    constructor (val = undefined, left = null, right = null) {
+    constructor (val: any = undefined, left: TreeNode | null = null, right: TreeNode | null = null) {
         this.root = new TreeNode(val, left, right)
     }
     makeEmpty (): void {
@@ -78,10 +78,26 @@ export class BinarySearchTree implements BinarySearchTreeInterface {
             } else {
                 let temp = this._findMinByNode(node.right)
                 node.element = (temp as TreeNode).element
-                node.right = this._deleteByNode(val, node.right)
+                node.right = this._deleteByNode(temp, node.right)
             }
         }
 
         return node
+    }
+
+    print (): void {
+        this._printByNode(this.root, 0)
+    }
+
+    private _printByNode (node: TreeNode | null, tabIndex: number): void {
+        let tabStr: string = '  '.repeat(tabIndex) + (tabIndex > 0 ? ' ' + '|--' : '')
+        if (node === null) {
+            return console.log(tabStr + 'null')
+        }
+        console.log(tabStr + node.element)
+        if (node.left || node.right) {
+            this._printByNode(node.left, tabIndex + 1)
+            this._printByNode(node.right, tabIndex + 1)
+        }
     }
 }
