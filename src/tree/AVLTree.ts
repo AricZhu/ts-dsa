@@ -2,13 +2,39 @@ import { AVLNode, AVLTreeInterface } from './types'
 
 export class AVLTree implements AVLTreeInterface {
     root: AVLNode | null
-    constructor (val: any) {
-        this.root = new AVLNode(val)
+    constructor () {
+        this.root = null
     }
 
     insert (val: any): AVLNode {
-        // TODO
-        return new AVLNode(val)
+        return this.root = this._insertByNode(val, this.root)
+    }
+    private _insertByNode (val: any, node: AVLNode | null): AVLNode {
+        if (node === null) {
+            node = new AVLNode(val)
+        } else if (val < node.element) {
+            node.left = this._insertByNode(val, node.left)
+            if (this.getHeight(node.left) - this.getHeight(node.right) === 2) {
+                if (val < node.left.element) {
+                    node = this.singleRotateWithLeft(node)
+                } else {
+                    node = this.doubleRotateWithLeft(node)
+                }
+            }
+        } else if (val > node.element) {
+            node.right = this._insertByNode(val, node.right)
+            if (this.getHeight(node.right) - this.getHeight(node.left) === 2) {
+                if (val > node.right.element) {
+                    node = this.singleRotateWithRight(node)
+                } else {
+                    node = this.doubleRotateWithRight(node)
+                }
+            }
+        }
+
+        node.height = Math.max(this.getHeight(node.left), this.getHeight(node.right)) + 1
+
+        return node
     }
 
     getHeight (node: AVLNode | null): number {

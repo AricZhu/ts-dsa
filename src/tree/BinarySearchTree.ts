@@ -2,8 +2,8 @@ import { TreeNode, BinarySearchTreeInterface } from './types'
 
 export class BinarySearchTree implements BinarySearchTreeInterface {
     root: TreeNode | null
-    constructor (val: any = undefined, left: TreeNode | null = null, right: TreeNode | null = null) {
-        this.root = new TreeNode(val, left, right)
+    constructor () {
+        this.root = null
     }
     makeEmpty (): void {
         this.root = null
