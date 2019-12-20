@@ -11,8 +11,8 @@ class NodeElement implements NodeInterface {
 
 export class List implements ListInterface {
     header: NodeInterface
-    constructor (val: any) {
-        this.header = new NodeElement(val)
+    constructor () {
+        this.header = new NodeElement(undefined)
     }
     isEmpty (): boolean {
         return this.header.next === null
@@ -46,20 +46,26 @@ export class List implements ListInterface {
 
         return pos
     }
-    insert (val: any, pos: NodeInterface): NodeInterface {
+    insert (val: any): NodeInterface {
         let newPos: NodeInterface = new NodeElement(val)
-        newPos.next = pos.next
-        pos.next = newPos
+        let temp = this.header
+        while (temp.next) {
+            temp = temp.next
+        }
+        temp.next = newPos
 
         return newPos
     }
-    printList (): void {
+    toString (): string {
         let ret: string[] = []
         let pos: NodeInterface | null = this.header
         while (pos) {
-            ret.push(JSON.stringify(pos.element))
+            ret.push(String(pos.element))
             pos = pos.next
         }
-        console.log(ret.join(' ---> '))
+        return ret.join(' ---> ')
+    }
+    print (): void {
+        console.log(this.toString())
     }
 }

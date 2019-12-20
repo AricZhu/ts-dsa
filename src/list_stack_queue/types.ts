@@ -11,8 +11,9 @@ export interface ListInterface {
     find (val: any): NodeInterface | null
     delete (val: any): NodeInterface | null
     findPrevious (val: any): NodeInterface
-    insert (val: any, pos: NodeInterface): NodeInterface
-    printList (): void
+    insert (val: any): NodeInterface
+    toString (): string
+    print (): void
 }
 
 // stack（栈）结构的类型定义
