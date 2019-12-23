@@ -1,6 +1,6 @@
 import { BinaryHeapInterface } from './types'
 
-class BinaryHeap implements BinaryHeapInterface {
+export class BinaryHeap implements BinaryHeapInterface {
     size: number
     elements: any[]
 
@@ -17,7 +17,7 @@ class BinaryHeap implements BinaryHeapInterface {
     insert (val: any): void {
         let i = ++this.size
         let parent = Math.floor(i / 2)
-        while (this.elements[parent] > this.elements[i]) {
+        while (this.elements[parent] > val) {
             this.elements[i] = this.elements[parent]
             i = parent
             parent = Math.floor(i / 2)
@@ -53,6 +53,6 @@ class BinaryHeap implements BinaryHeapInterface {
     }
 
     print (): void {
-        console.log(this.elements.slice(1, this.size).join(' '))
+        console.log(this.elements.slice(1, this.size + 1).join(' '))
     }
 }
