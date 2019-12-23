@@ -26,7 +26,30 @@ class BinaryHeap implements BinaryHeapInterface {
     }
 
     deleteMin (): any {
-        // TODO
+        if (this.isEmpty()) {
+            return
+        }
+        let ret = this.elements[1]
+        let [i, child, last] = [1, 2, this.elements[this.size--]]
+        while (child <= this.size && (child + 1) <= this.size) {
+            if (this.elements[child] > this.elements[child + 1]) {
+                child++
+            }
+            if (last < this.elements[child]) {
+                break
+            }
+            this.elements[i] = this.elements[child]
+            i = child
+            child = 2 * i
+        }
+        if (child > this.size || (child + 1) <= this.size || this.elements[child] > last) {
+            this.elements[i] = last
+        } else {
+            this.elements[i] = this.elements[child]
+            this.elements[child] = last
+        }
+
+        return ret
     }
 
     print (): void {
