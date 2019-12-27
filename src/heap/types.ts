@@ -21,3 +21,18 @@ export interface LeftIstHeapInterface {
     deleteMin (): LeftIstHeapNodeInterface | null
     print (): void
 }
+
+export interface BinaryQueueNodeInterface {
+    element: any
+    leftChild: BinaryQueueNodeInterface | null
+    nextSibling: BinaryQueueNodeInterface | null
+}
+
+export interface BinaryQueueInterface {
+    currentSize: number
+    theTree: (BinaryQueueNodeInterface | null)[]
+    mergeBinQueue (H: BinaryQueueInterface):void
+    mergeNode (h1: BinaryQueueNodeInterface | null, h2: BinaryQueueNodeInterface | null): BinaryQueueNodeInterface | null
+    deleteMin (): BinaryQueueNodeInterface | undefined
+    print (): void
+}
