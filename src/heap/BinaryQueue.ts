@@ -21,7 +21,7 @@ export class BinaryQueue implements BinaryQueueInterface {
         this.theTree = []
     }
 
-    mergeBinQueue (H: BinaryQueue):void {
+    mergeBinQueue (H: BinaryQueueInterface):void {
         let carry: BinaryQueueNodeInterface | null = null
         this.currentSize += H.currentSize
         for (let i = 0; i < this.currentSize; i++) {
@@ -77,11 +77,28 @@ export class BinaryQueue implements BinaryQueueInterface {
         return h1
     }
 
-    deleteMin (): BinaryQueueNodeInterface | undefined {
-        // TODO
+    deleteMin (): BinaryQueueNodeInterface | null {
         if (!this.currentSize) {
-            return
+            return null
         }
+        let [minIdx, minNode, minVal]: [number, BinaryQueueNodeInterface | null, number] = [0, null, 9999]
+        for (let i = 0; i < this.currentSize; i++) {
+            if (this.theTree[i] && (this.theTree[i] as BinaryQueueNodeInterface).element < minVal ) {
+                [minIdx, minNode, minVal] = [i, this.theTree[i], (this.theTree[i] as BinaryQueueNodeInterface).element]
+            }
+        }
+        let oldNode = (minNode as BinaryQueueNodeInterface).leftChild
+        this.theTree[minIdx] = null
+        let newH = new BinaryQueue()
+        newH.currentSize = minIdx
+        for (let j = minIdx - 1; j >= 0; j--) {
+            newH.theTree[j] = oldNode
+            oldNode = (oldNode as BinaryQueueNodeInterface).nextSibling
+        }
+        this.mergeBinQueue(newH)
+
+        minNode && (minNode.leftChild = null)
+        return minNode
     }
 
     print (): void {

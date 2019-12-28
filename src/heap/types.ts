@@ -33,6 +33,6 @@ export interface BinaryQueueInterface {
     theTree: (BinaryQueueNodeInterface | null)[]
     mergeBinQueue (H: BinaryQueueInterface):void
     mergeNode (h1: BinaryQueueNodeInterface | null, h2: BinaryQueueNodeInterface | null): BinaryQueueNodeInterface | null
-    deleteMin (): BinaryQueueNodeInterface | undefined
+    deleteMin (): BinaryQueueNodeInterface | null
     print (): void
 }
