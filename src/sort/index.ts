@@ -83,3 +83,25 @@ function filterDown (arr: number[], size: number): void {
         arr[2 * iPos] = val
     }
 }
+
+// 归并排序
+export function mergeSort (arr: number[], n: number): number[] {
+    if (n === 1) {
+        return arr
+    }
+    let arrL = mergeSort(arr.slice(0, Math.floor(n / 2)), Math.floor(n / 2))
+    let arrR = mergeSort(arr.slice(Math.floor(n / 2), n), n - Math.floor(n / 2))
+    let [lPtr, rPtr, idx] = [0, 0, 0]
+    arr = []
+    for (; lPtr < arrL.length && rPtr < arrR.length;) {
+        if (arrL[lPtr] < arrR[rPtr]) {
+            arr[idx++] = arrL[lPtr++]
+        } else {
+            arr[idx++] = arrR[rPtr++]
+        }
+    }
+    arr = arr.concat(arrL.slice(lPtr, arrL.length))
+    arr = arr.concat(arrR.slice(rPtr, arrR.length))
+
+    return arr
+}

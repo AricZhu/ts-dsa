@@ -1,4 +1,4 @@
-import { insertSort, shellSort, insertHeapEle, heapSort } from './index'
+import { insertSort, shellSort, insertHeapEle, heapSort, mergeSort } from './index'
 
 console.log('========== 插入排序测试 ==========')
 let arr1 = [34, 8, 64, 51, 32, 21]
@@ -17,5 +17,10 @@ let arr3: number[] = []
 heapElm.forEach(el => insertHeapEle(arr3, el))
 console.log(`after insert, the heap is: ${arr3}`)
 console.log(`after heapSort, data: ${heapSort(arr3, heapElm.length)}`)
+
+console.log('========== 归并排序测试 ==========')
+let arr4 = [1, 26, 2, 15, 38, 13, 24, 27]
+console.log(`data is: ${arr4}`)
+console.log(`after mergeSort, data: ${mergeSort(arr4, arr4.length)}`)
 
 console.log('========== end ==========')
