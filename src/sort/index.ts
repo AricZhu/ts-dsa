@@ -105,3 +105,56 @@ export function mergeSort (arr: number[], n: number): number[] {
 
     return arr
 }
+
+// 快速排序
+export function quickSort (arr: number[], n: number): number[] {
+    _quickSort(arr, 0, n - 1)
+    return arr
+}
+
+function _insertSort (arr: number[], start: number, end: number): void {
+    if (end - start <= 0) {
+        return
+    }
+    for (let i = start + 1; i <= end; i++) {
+        let [j, temp] = [i - 1, arr[i]]
+        for (; j >= start && arr[j] > temp; j--) {
+            arr[j + 1] = arr[j]
+        }
+        arr[j + 1] = temp
+    }
+}
+
+function _quickSort (arr: number[], start: number, end: number): void {
+    if (end - start <= 10) {
+        _insertSort(arr, start, end)
+        return
+    }
+    let mid = Math.floor((start + end) / 2)
+    if (arr[mid] > Math.min(arr[start], arr[end]) && arr[mid] < Math.max(arr[start], arr[end])) {
+        [arr[mid], arr[end]] = [arr[end], arr[mid]]
+    } else if (arr[start] > Math.min(arr[mid], arr[end]) && arr[start] < Math.max(arr[mid], arr[end])) {
+        [arr[start], arr[end]] = [arr[end], arr[start]]
+    }
+    mid = end
+    let [i, j] = [start, end - 1]
+    while (i < j) {
+        while (arr[i] < arr[mid]) {
+            i++
+        }
+        while (arr[j] > arr[mid]) {
+            j--
+        }
+        if (i < j) {
+            [arr[i], arr[j]] = [arr[j], arr[i]]
+            i++
+            j--
+        } else {
+            [arr[i], arr[mid]] = [arr[mid], arr[i]]
+            mid = i
+            break
+        }
+    }
+    _quickSort(arr, start, mid - 1)
+    _quickSort(arr, mid + 1, end)
+}

@@ -1,4 +1,4 @@
-import { insertSort, shellSort, insertHeapEle, heapSort, mergeSort } from './index'
+import { insertSort, shellSort, insertHeapEle, heapSort, mergeSort, quickSort } from './index'
 
 console.log('========== 插入排序测试 ==========')
 let arr1 = [34, 8, 64, 51, 32, 21]
@@ -23,4 +23,8 @@ let arr4 = [1, 26, 2, 15, 38, 13, 24, 27]
 console.log(`data is: ${arr4}`)
 console.log(`after mergeSort, data: ${mergeSort(arr4, arr4.length)}`)
 
+console.log('========== 快速排序测试 ==========')
+let arr5 = [8, 1, 4, 9, 0, 3, 5, 2, 7, 6]
+console.log(`data is: ${arr5}`)
+console.log(`after quickSort, data: ${quickSort(arr5, arr5.length)}`)
 console.log('========== end ==========')
