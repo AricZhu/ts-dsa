@@ -1,6 +1,6 @@
 import { NodeInterface, ListInterface } from './types'
 
-class NodeElement implements NodeInterface {
+export class NodeElement implements NodeInterface {
     element: any
     next: NodeInterface | null
     constructor (val: any = undefined) {
