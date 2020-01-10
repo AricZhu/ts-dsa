@@ -1,4 +1,5 @@
 import { ALGraph } from './ALGraph'
+import { topologySort } from './algo'
 
 console.log('========== 邻接表图 测试 ==========')
 let alGraph = new ALGraph()
@@ -10,4 +11,9 @@ console.log(`add edges: ${edges1.map(el => `(${el[0]},${el[1]})`)}`)
 edges1.forEach(el => alGraph.addEdge(el[0], el[1]))
 console.log('the al graph is: ')
 alGraph.print()
+
+console.log('========== 拓扑排序 测试 ==========')
+let toposort = topologySort(alGraph)
+console.log(`topology sort: ${toposort}`)
+
 console.log('========== end ==========')
