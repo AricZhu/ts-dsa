@@ -1,4 +1,5 @@
 import { ALGraphInterface } from './types'
+import { Queue } from '../list_stack_queue/Queue'
 
 // 拓扑排序
 // 建立顶点的入度
@@ -52,4 +53,33 @@ export function topologySort (graph: ALGraphInterface): any[] {
         v = findZeroIndegreeVertex(indegree)
     }
     return vertexs
+}
+
+// 无权最短路径算法
+export function unWeighted (graph: ALGraphInterface, source: any): object {
+    const INFINITE = 9999
+    let dist = {}
+    let queue = new Queue()
+    // 初始化源顶点到其他顶点的距离
+    graph.vertexs.forEach(el => dist[el.element] = INFINITE)
+    dist[source] = 0
+    let tmp = graph._findVertex(source).next
+    while (tmp) {
+        dist[tmp.element] = 1
+        queue.enQueue(tmp.element)
+        tmp = tmp.next
+    }
+    while (!queue.isEmpty()) {
+        let ele = queue.deQueue()
+        tmp = graph._findVertex(ele).next
+        while (tmp) {
+            if (dist[tmp.element] === INFINITE) {
+                dist[tmp.element] = dist[ele] + 1
+                queue.enQueue(tmp.element)
+            }
+            tmp = tmp.next
+        }
+    }
+
+    return dist
 }
