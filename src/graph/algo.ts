@@ -1,4 +1,4 @@
-import { ALGraphInterface, GraphNode } from './types'
+import { ALGraphInterface, GraphNode, ALWeightGraphInterface, GraphWeightNode } from './types'
 import { Queue } from '../list_stack_queue/Queue'
 
 // 拓扑排序
@@ -56,8 +56,8 @@ export function topologySort (graph: ALGraphInterface): any[] {
 }
 
 // 无权最短路径算法
+const INFINITE = 9999
 export function unWeighted (graph: ALGraphInterface, source: any): object {
-    const INFINITE = 9999
     let dist: {[propName: string]: number} = {}
     let queue = new Queue()
     // 初始化源顶点到其他顶点的距离
@@ -81,5 +81,40 @@ export function unWeighted (graph: ALGraphInterface, source: any): object {
         }
     }
 
+    return dist
+}
+
+// Dijkstra 算法
+function findMinDistVertex (dist: {[propName: string]: {know: boolean, dist: number}}) {
+    let ret = undefined
+    let minVal = INFINITE
+    for (let key in dist) {
+        if (!dist[key].know && dist[key].dist < minVal) {
+            minVal = dist[key].dist
+            ret = key
+        }
+    }
+
+    return ret
+}
+function updateDist (graph: ALWeightGraphInterface, dist: {[propName: string]: {know: boolean, dist: number}}, vertex: string | number): void {
+    let tmp: GraphWeightNode | undefined | null = (graph.findVertex(vertex) as GraphWeightNode).next
+    while (tmp) {
+        if (dist[vertex].dist + tmp.weight < dist[tmp.element].dist) {
+            dist[tmp.element].dist = dist[vertex].dist + tmp.weight
+        }
+        tmp = tmp.next
+    }
+}
+export function Dijkstra (graph: ALWeightGraphInterface, source: any): object {
+    let dist: {[propName: string]: {know: boolean, dist: number}} = {}
+    // 初始化源顶点到其他顶点的距离
+    graph.vertexs.forEach(el => dist[el.element] = {know: false, dist: INFINITE})
+    dist[source].dist = 0
+    let v
+    while (v = findMinDistVertex(dist)) {
+        dist[v].know = true
+        updateDist(graph, dist, v)
+    }
     return dist
 }

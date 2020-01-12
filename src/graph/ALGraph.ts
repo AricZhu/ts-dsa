@@ -1,4 +1,4 @@
-import { GraphNode, ALGraphInterface } from './types'
+import { GraphNode, GraphWeightNode, ALGraphInterface, ALWeightGraphInterface } from './types'
 
 export class ALGraph implements ALGraphInterface {
     vertexs: GraphNode[]
@@ -30,6 +30,42 @@ export class ALGraph implements ALGraphInterface {
             let [ele, tmp]: [(string | number)[], GraphNode | null] = [[this.vertexs[i].element], this.vertexs[i].next]
             while (tmp) {
                 ele.push(tmp.element)
+                tmp = tmp.next
+            }
+            console.log(ele.join(' ---> '))
+        }
+    }
+}
+
+export class ALWeightGraph implements ALWeightGraphInterface {
+    vertexs: GraphWeightNode[]
+    constructor () {
+        this.vertexs = []
+    }
+    addVertex (val: any): void {
+        if (!this.findVertex(val)) {
+            this.vertexs.push(new GraphWeightNode(val))
+        }
+    }
+    addEdge (from: any, to: any, weight: number): void {
+        let v = this.findVertex(from)
+        if (v) {
+            let tmp = v
+            while (tmp.next) {
+                tmp = tmp.next
+            }
+            tmp.next = new GraphWeightNode(to, weight)
+        }
+    }
+    findVertex (val: any): GraphWeightNode | undefined {
+        return this.vertexs.find(el => el.element === val)
+    }
+    print (): void {
+        for (let [i, len] = [0, this.vertexs.length]; i < len; i++) {
+            let ele: string[] = [`${this.vertexs[i].element}(${this.vertexs[i].weight})`]
+            let tmp: GraphWeightNode | null = this.vertexs[i].next
+            while (tmp) {
+                ele.push(`${tmp.element}(${tmp.weight})`)
                 tmp = tmp.next
             }
             console.log(ele.join(' ---> '))
