@@ -1,35 +1,33 @@
-import { NodeInterface } from '../list_stack_queue/types'
-import { NodeElement } from '../list_stack_queue/List'
-import { ALGraphInterface } from './types'
+import { GraphNode, ALGraphInterface } from './types'
 
 export class ALGraph implements ALGraphInterface {
-    vertexs: NodeInterface[]
+    vertexs: GraphNode[]
     constructor () {
         this.vertexs = []
     }
-    _findVertex (val: any): NodeInterface | undefined {
+    findVertex (val: any): GraphNode | undefined {
         return this.vertexs.find(el => el.element === val)
     }
     addVertex (val: any): void {
-        if (!this._findVertex(val)) {
-            this.vertexs.push(new NodeElement(val))
+        if (!this.findVertex(val)) {
+            this.vertexs.push(new GraphNode(val))
         }
     }
     addEdge (from: any, to: any): void {
-        let vertex = this._findVertex(from)
+        let vertex = this.findVertex(from)
         if (vertex) {
             let tmp = vertex
             while (tmp.next && tmp.element !== to) {
                 tmp = tmp.next
             }
             if (tmp.element !== to) {
-                tmp.next = new NodeElement(to)
+                tmp.next = new GraphNode(to)
             }
         }
     }
     print (): void {
         for (let [i, len] = [0, this.vertexs.length]; i < len; i++) {
-            let [ele, tmp]: [NodeInterface[], NodeInterface | null] = [[this.vertexs[i].element], this.vertexs[i].next]
+            let [ele, tmp]: [(string | number)[], GraphNode | null] = [[this.vertexs[i].element], this.vertexs[i].next]
             while (tmp) {
                 ele.push(tmp.element)
                 tmp = tmp.next
