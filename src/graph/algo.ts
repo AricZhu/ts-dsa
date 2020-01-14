@@ -118,3 +118,57 @@ export function Dijkstra (graph: ALWeightGraphInterface, source: any): object {
     }
     return dist
 }
+
+// Prim 算法
+function updateDv (graph: ALWeightGraphInterface, vertex: number | string, dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
+    let v: GraphWeightNode | null = graph.findVertex(vertex) as GraphWeightNode
+    let pv = v.element
+    v = v.next
+    while (v) {
+        if (!dist[v.element].know && v.weight < dist[v.element].dv) {
+            dist[v.element].dv = v.weight
+            dist[v.element].pv = pv
+        }
+        v = v.next
+    }
+}
+
+function findMinEdgeVertex (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
+    let newVertex = ''
+    let minEdge = INFINITE
+    for (let key in dist) {
+        if (!dist[key].know && dist[key].dv < minEdge) {
+            newVertex = key
+            minEdge = dist[key].dv
+        }
+    }
+
+    return newVertex
+}
+
+function printPrim (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
+    console.log('v\tknow\tdv\tpv')
+    for (let key in dist) {
+        console.log(`${key}\t${dist[key].know}\t${dist[key].dv}\t${dist[key].pv}`)
+    }
+}
+
+export function Prim (graph: ALWeightGraphInterface, vertex: number | string): {[propName: string]: {know: boolean, dv: number, pv: string | number}} {
+    let dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}} = {}
+    for (let i = 0; i < graph.vertexs.length; i++) {
+        if (graph.vertexs[i].element === vertex) {
+            dist[graph.vertexs[i].element] = {know: true, dv: 0, pv: ''}
+        } else {
+            dist[graph.vertexs[i].element] = {know: false, dv: INFINITE, pv: ''}
+        }
+    }
+    updateDv(graph, vertex, dist)
+    let newVertex
+    while (newVertex = findMinEdgeVertex(dist)) {
+        dist[newVertex].know = true
+        updateDv(graph, newVertex, dist)
+    }
+
+    printPrim(dist)
+    return dist
+}

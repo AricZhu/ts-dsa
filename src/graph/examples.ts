@@ -1,5 +1,5 @@
 import { ALGraph, ALWeightGraph } from './ALGraph'
-import { topologySort, unWeighted, Dijkstra } from './algo'
+import { topologySort, unWeighted, Dijkstra, Prim } from './algo'
 
 console.log('========== 邻接表图 测试 ==========')
 let alGraph = new ALGraph()
@@ -28,10 +28,14 @@ console.log('========== Dijkstra 算法 测试 ==========')
 let alGraph3 = new ALWeightGraph()
 data2.forEach(el => alGraph3.addVertex(el))
 let edges3 = [['v1', 'v2', 2], ['v1', 'v4', 1], ['v3', 'v1', 4], ['v2', 'v4', 3], ['v2', 'v5', 10],
-    ['v3', 'v6', 5], ['v4', 'v6', 8], ['v4', 'v7', 4], ['v4', 'v3', 2], ['v4', 'v5', 2], ['v5', 'v7', 6], ['v7', 'v6', 1]]
+    ['v3', 'v6', 5], ['v4', 'v6', 8], ['v4', 'v7', 4], ['v4', 'v3', 2], ['v4', 'v5', 7], ['v5', 'v7', 6], ['v7', 'v6', 1]]
 edges3.forEach(el => alGraph3.addEdge(el[0], el[1], el[2] as number))
 console.log(`the weighted graph is: `)
 alGraph3.print()
 console.log(`the Dijkstra is: ${JSON.stringify(Dijkstra(alGraph3, 'v1'))}`)
 
+console.log('========== Prim 算法 测试 ==========')
+console.log('the Prim is: ')
+edges3.forEach(el => alGraph3.addEdge(el[1], el[0], el[2] as number))
+Prim(alGraph3, 'v1')
 console.log('========== end ==========')
