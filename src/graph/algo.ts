@@ -146,7 +146,7 @@ function findMinEdgeVertex (dist: {[propName: string]: {know: boolean, dv: numbe
     return newVertex
 }
 
-function printPrim (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
+function printDist (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
     console.log('v\tknow\tdv\tpv')
     for (let key in dist) {
         console.log(`${key}\t${dist[key].know}\t${dist[key].dv}\t${dist[key].pv}`)
@@ -169,6 +169,76 @@ export function Prim (graph: ALWeightGraphInterface, vertex: number | string): {
         updateDv(graph, newVertex, dist)
     }
 
-    printPrim(dist)
+    printDist(dist)
+    return dist
+}
+
+// Kruskal 算法
+function setUpEdges (graph: ALWeightGraphInterface): (string | number)[][] {
+    let edges: (string | number)[][] = []
+    graph.vertexs.forEach(el => {
+        let tmp = el.next
+        while (tmp) {
+            edges.push([el.element, tmp.element, tmp.weight])
+            tmp = tmp.next
+        }
+    })
+
+    return edges
+}
+
+function isFinish (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}): Boolean {
+    for (let key in dist) {
+        if (!dist[key].know) {
+            return false
+        }
+    }
+
+    return true
+}
+
+function findMinEdges (edges: (string|number)[][], dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}): (string|number)[] {
+    while (edges.length) {
+        let minIdx: number = -1
+        let minVal: number | string = INFINITE
+        edges.forEach((el, idx) => {
+            if (el[2] < minVal) {
+                minIdx = idx
+                minVal = el[2]
+            }
+        })
+        if (minIdx !== -1) {
+            let ele = edges[minIdx]
+            if (dist[ele[0]].know && dist[ele[1]].know) {
+                edges.splice(minIdx)
+            } else {
+                let ret = edges[minIdx]
+                edges.splice(minIdx)
+                return ret
+            }
+        }
+    }
+    return []
+}
+
+function updateDistEdge (from: string | number, to: string | number, weight: number, dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}): void {
+    dist[from].know = true
+    dist[to].know = true
+    dist[from].dv = weight
+    dist[to].dv = weight
+}
+
+export function Kruskal (graph: ALWeightGraphInterface): {[propName: string]: {know: boolean, dv: number, pv: string | number}} {
+    let dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}} = {}
+    for (let i = 0; i < graph.vertexs.length; i++) {
+        dist[graph.vertexs[i].element] = {know: false, dv: INFINITE, pv: ''}
+    }
+    let edges = setUpEdges(graph)
+    while (!isFinish(dist)) {
+        let [from, to, weight] = findMinEdges(edges, dist)
+        updateDistEdge(from, to, Number(weight), dist)
+    }
+
+    printDist(dist)
     return dist
 }
