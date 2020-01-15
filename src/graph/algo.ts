@@ -146,7 +146,7 @@ function findMinEdgeVertex (dist: {[propName: string]: {know: boolean, dv: numbe
     return newVertex
 }
 
-function printDist (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
+export function printDist (dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}) {
     console.log('v\tknow\tdv\tpv')
     for (let key in dist) {
         console.log(`${key}\t${dist[key].know}\t${dist[key].dv}\t${dist[key].pv}`)
@@ -169,7 +169,6 @@ export function Prim (graph: ALWeightGraphInterface, vertex: number | string): {
         updateDv(graph, newVertex, dist)
     }
 
-    printDist(dist)
     return dist
 }
 
@@ -210,10 +209,10 @@ function findMinEdges (edges: (string|number)[][], dist: {[propName: string]: {k
         if (minIdx !== -1) {
             let ele = edges[minIdx]
             if (dist[ele[0]].know && dist[ele[1]].know) {
-                edges.splice(minIdx)
+                edges.splice(minIdx, 1)
             } else {
-                let ret = edges[minIdx]
-                edges.splice(minIdx)
+                let ret = [...edges[minIdx]]
+                edges.splice(minIdx, 1)
                 return ret
             }
         }
@@ -239,6 +238,5 @@ export function Kruskal (graph: ALWeightGraphInterface): {[propName: string]: {k
         updateDistEdge(from, to, Number(weight), dist)
     }
 
-    printDist(dist)
     return dist
 }

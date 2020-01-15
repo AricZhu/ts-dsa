@@ -27,3 +27,4 @@
         - Djikstra 算法
     - 最小生成树
         - Prim 算法
+        - Kruskal 算法
