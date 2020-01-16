@@ -221,10 +221,16 @@ function findMinEdges (edges: (string|number)[][], dist: {[propName: string]: {k
 }
 
 function updateDistEdge (from: string | number, to: string | number, weight: number, dist: {[propName: string]: {know: boolean, dv: number, pv: string | number}}): void {
-    dist[from].know = true
-    dist[to].know = true
-    dist[from].dv = weight
-    dist[to].dv = weight
+    if (!dist[from].know) {
+        dist[from].know = true
+        dist[from].dv = weight
+        dist[from].pv = to
+    }
+    if (!dist[to].know) {
+        dist[to].know = true
+        dist[to].dv = weight
+        dist[to].pv = from
+    }
 }
 
 export function Kruskal (graph: ALWeightGraphInterface): {[propName: string]: {know: boolean, dv: number, pv: string | number}} {
